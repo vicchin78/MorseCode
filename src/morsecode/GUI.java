@@ -6,19 +6,19 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
 
 public class GUI implements ActionListener {
 
 	private JTextArea text, morse;
 	private JLabel enterText;
-	private JButton translateToMorse, translateToEnglish;
+	private JButton translateToMorse, translateToEnglish, playAudio;
 	private static String word, morseWord;
 	private Translator translator = new Translator();
 
 	public static void main(String[] args) {
 		new GUI();
-
 	}
 
 	public GUI() {
@@ -47,7 +47,7 @@ public class GUI implements ActionListener {
 		translateToMorse = new JButton("Translate to Morse Code");
 		translateToMorse.setBounds(50, text.getY() + 125, 200, 50);
 		translateToMorse.addActionListener(this);
-		container.add(translateToMorse);		
+		container.add(translateToMorse);
 
 		morseWord = translator.translateToMorse(text.getText());
 		morse = new JTextArea(morseWord, 50, 50);
@@ -56,29 +56,42 @@ public class GUI implements ActionListener {
 		morse.setLineWrap(true);
 		morse.setWrapStyleWord(true);
 		container.add(morse);
-		
+
 		translateToEnglish = new JButton("Translate to English Alphabet");
 		translateToEnglish.setBounds(50, morse.getY() + 125, 200, 50);
 		translateToEnglish.addActionListener(this);
 		container.add(translateToEnglish);
 
+		playAudio = new JButton("Listen as Audio");
+		playAudio.setBounds(frame.getX() - morse.getX(), morse.getY() + 125, 150, 50);
+		playAudio.addActionListener(this);
+		container.add(playAudio);
+
 		container.setBackground(Color.cyan);
 	}
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == translateToMorse) {
 			word = text.getText();
 			morseWord = translator.translateToMorse(word);
-			System.out.println(morseWord);
 			morse.setText(morseWord);
 		}
-		if(e.getSource() == translateToEnglish)
-		{
+		if (e.getSource() == translateToEnglish) {
 			morseWord = morse.getText();
 			word = translator.translateFromMorse(morseWord);
 			text.setText(word);
+		}
+		if (e.getSource() == playAudio) {
+			try {
+				translator.translateToAudio(morseWord);
+			} catch (LineUnavailableException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 
 	}
