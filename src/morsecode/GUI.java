@@ -12,7 +12,7 @@ import javax.swing.*;
 public class GUI implements ActionListener {
 
 	private JTextArea text, morse;
-	private JLabel enterText;
+	private JLabel enterText, morseText;
 	private JButton translateToMorse, translateToEnglish, playAudio;
 	private static String word, morseWord;
 	private Translator translator = new Translator();
@@ -22,7 +22,7 @@ public class GUI implements ActionListener {
 	}
 
 	public GUI() {
-		JFrame frame = new JFrame("Morse Code Solver");
+		JFrame frame = new JFrame("Morse Code Translator");
 		frame.setVisible(true);
 		frame.setBounds(0, 0, 1920, 1080);
 		frame.setLocationRelativeTo(null);
@@ -39,9 +39,9 @@ public class GUI implements ActionListener {
 		text.setWrapStyleWord(true);
 		container.add(text);
 
-		enterText = new JLabel("Enter Phrase to be Translated to Morse Code:");
+		enterText = new JLabel("Enter Letters in English Alphabet to be Translated to Morse Code:");
 		enterText.setFont(new Font(("Serif"), Font.BOLD, 50));
-		enterText.setBounds(50, text.getY() - 70, frame.getWidth(), 50);
+		enterText.setBounds(50, text.getY() - 70, frame.getWidth(), 60);
 		container.add(enterText);
 
 		translateToMorse = new JButton("Translate to Morse Code");
@@ -56,6 +56,11 @@ public class GUI implements ActionListener {
 		morse.setLineWrap(true);
 		morse.setWrapStyleWord(true);
 		container.add(morse);
+
+		morseText = new JLabel("Enter Morse Code to be Translated to English Alphabet:");
+		morseText.setFont(new Font(("Serif"), Font.BOLD, 50));
+		morseText.setBounds(50, morse.getY() - 70, frame.getWidth(), 60);
+		container.add(morseText);
 
 		translateToEnglish = new JButton("Translate to English Alphabet");
 		translateToEnglish.setBounds(50, morse.getY() + 125, 200, 50);
